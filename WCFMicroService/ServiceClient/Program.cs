@@ -27,7 +27,7 @@ namespace ServiceClient
                 var response = await client.GetAsync("api/values");
                 if (response.IsSuccessStatusCode)
                 {
-                    bool[] output = await response.Content.ReadAsAsync<bool[]>();
+                    string[] output = await response.Content.ReadAsAsync<string[]>();
                     Console.WriteLine("The response from the service call was {0}", output[0]);
                     Console.ReadLine();
                 }
