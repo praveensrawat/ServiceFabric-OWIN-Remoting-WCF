@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="WCFMicroServiceType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Parameters>
+      <Parameter Name="StatefulMicroService1_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="StatefulMicroService1_PartitionCount" DefaultValue="1" />
+      <Parameter Name="StatefulMicroService1_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="FrontEndGateway_InstanceCount" DefaultValue="-1" />
+   </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="StatefulMicroService1Pkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="FrontEndGatewayPkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <DefaultServices>
+      <Service Name="StatefulMicroService1">
+         <StatefulService ServiceTypeName="StatefulMicroService1Type" TargetReplicaSetSize="[StatefulMicroService1_TargetReplicaSetSize]" MinReplicaSetSize="[StatefulMicroService1_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[StatefulMicroService1_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+      <Service Name="FrontEndGateway">
+         <StatelessService ServiceTypeName="FrontEndGatewayType" InstanceCount="[FrontEndGateway_InstanceCount]">
+            <SingletonPartition />
+         </StatelessService>
+      </Service>
+   </DefaultServices>
+</ApplicationManifest>
